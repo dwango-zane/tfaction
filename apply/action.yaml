@@ -2,18 +2,18 @@ name: apply
 description: apply
 inputs:
   github_token:
-    description: 'GitHub Access Token'
+    description: "GitHub Access Token"
     required: false
     default: ${{ github.token }}
 runs:
   using: composite
   steps:
-    - uses: suzuki-shunsuke/tfaction/terraform-apply@main
+    - uses: dwango-zane/tfaction/terraform-apply@main
       if: env.TFACTION_JOB_TYPE == 'terraform'
       with:
         github_token: ${{inputs.github_token}}
 
-    - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@main
+    - uses: dwango-zane/tfaction/tfmigrate-apply@main
       if: env.TFACTION_JOB_TYPE == 'tfmigrate'
       with:
         github_token: ${{inputs.github_token}}

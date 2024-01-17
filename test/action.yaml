@@ -11,7 +11,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: suzuki-shunsuke/tfaction/get-target-config@main
+    - uses: dwango-zane/tfaction/get-target-config@main
       id: target-config
 
     - name: terraform validate
@@ -31,15 +31,15 @@ runs:
       with:
         github_token: ${{ inputs.github_token }}
         working_directory: ${{ steps.target-config.outputs.working_directory }}
-        github_comment: 'true'
+        github_comment: "true"
 
     - uses: suzuki-shunsuke/github-action-tfsec@6b4afce3060c0d8865d269de0c5fabc90e1b20f7 # v1.0.0
       if: fromJSON(steps.target-config.outputs.enable_tfsec) && steps.target-config.outputs.destroy != 'true'
       with:
         github_token: ${{ inputs.github_token }}
         working_directory: ${{ steps.target-config.outputs.working_directory }}
-        github_comment: 'true'
-        ignore_hcl_errors: 'true'
+        github_comment: "true"
+        ignore_hcl_errors: "true"
 
     # deep check requires AWS credentials
     - uses: suzuki-shunsuke/github-action-tflint@b12ad80ebcd02fc75188a4fdcf5f0623d59ac521 # v1.0.0
@@ -47,7 +47,7 @@ runs:
       with:
         github_token: ${{ inputs.github_token }}
         working_directory: ${{ steps.target-config.outputs.working_directory }}
-        github_comment: 'true'
+        github_comment: "true"
 
     - uses: suzuki-shunsuke/github-action-terraform-fmt@08fddcbf90a48b11e54962c287efa4449bb8da8c # v0.1.1
       if: steps.target-config.outputs.destroy != 'true'

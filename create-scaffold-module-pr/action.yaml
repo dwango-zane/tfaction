@@ -23,7 +23,7 @@ runs:
       shell: bash
       if: env.TFACTION_MODULE_PATH == ''
 
-    - uses: suzuki-shunsuke/tfaction/get-global-config@main
+    - uses: dwango-zane/tfaction/get-global-config@main
       id: global-config
 
     - run: aqua i -l -a
@@ -55,7 +55,7 @@ runs:
         cat << EOS >> "$GITHUB_STEP_SUMMARY"
 
         ## Create a pull request
-        
+
         Please run the following command in your terminal.
 
         $CODE_BLOCK

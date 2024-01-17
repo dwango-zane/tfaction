@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'tag'
+        description: "tag"
         required: true
       ref:
-        description: 'released ref (branch, tag or SHA). By default, the default branch is used'
+        description: "released ref (branch, tag or SHA). By default, the default branch is used"
         required: false
-        default: ''
+        default: ""
 permissions:
   contents: write
 jobs:
@@ -31,7 +31,7 @@ jobs:
 
       - run: |
           git ls-files | grep -E "/action\.yaml$" |
-            xargs -n 1 sed -i "s|- uses: suzuki-shunsuke/tfaction/\(.*\)@main|- uses: suzuki-shunsuke/tfaction/\1@${{github.event.inputs.tag}}|"
+            xargs -n 1 sed -i "s|- uses: dwango-zane/tfaction/\(.*\)@main|- uses: dwango-zane/tfaction/\1@${{github.event.inputs.tag}}|"
       - run: git checkout -b "release/${{github.event.inputs.tag}}"
       - run: |
           git ls-files | grep -E "/action\.yaml$" | xargs git add
@@ -41,7 +41,7 @@ jobs:
       - run: git tag "${{github.event.inputs.tag}}"
       - run: git push origin "${{github.event.inputs.tag}}"
       - run: |
-          note_template='[Issues](https://github.com/suzuki-shunsuke/tfaction/issues?q=is%3Aissue+is%3Aclosed+milestone%3A${{github.event.inputs.tag}}) | [Pull Requests](https://github.com/suzuki-shunsuke/tfaction/pulls?q=is%3Apr+is%3Aclosed+milestone%3A${{github.event.inputs.tag}}) | https://github.com/suzuki-shunsuke/tfaction/compare/${{github.event.inputs.tag}}...${{github.event.inputs.tag}} | [Base revision](https://github.com/suzuki-shunsuke/tfaction/tree/BASE_REVISION)'
+          note_template='[Issues](https://github.com/dwango-zane/tfaction/issues?q=is%3Aissue+is%3Aclosed+milestone%3A${{github.event.inputs.tag}}) | [Pull Requests](https://github.com/dwango-zane/tfaction/pulls?q=is%3Apr+is%3Aclosed+milestone%3A${{github.event.inputs.tag}}) | https://github.com/dwango-zane/tfaction/compare/${{github.event.inputs.tag}}...${{github.event.inputs.tag}} | [Base revision](https://github.com/dwango-zane/tfaction/tree/BASE_REVISION)'
           gh release create "${{github.event.inputs.tag}}" -p --title "${{github.event.inputs.tag}}" -n "${note_template//BASE_REVISION/$BASE_REVISION}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
