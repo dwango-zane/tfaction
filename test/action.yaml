@@ -49,7 +49,8 @@ runs:
         working_directory: ${{ steps.target-config.outputs.working_directory }}
         github_comment: "true"
 
-    - uses: suzuki-shunsuke/github-action-terraform-fmt@08fddcbf90a48b11e54962c287efa4449bb8da8c # v0.1.1
+    # suzuki-shunsuke/github-action-terraform-fmt は dwango-zane/github-action-terraform-fmt としてフォーク済み
+    - uses: dwango-zane/github-action-terraform-fmt@677cffdc4bd168071438415508bba66bea4fa2eb # v0.1.1-1
       if: steps.target-config.outputs.destroy != 'true'
       with:
         working_directory: ${{ steps.target-config.outputs.working_directory }}
