@@ -8,12 +8,12 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: dwango-zane/tfaction/terraform-plan@main
+    - uses: dwango-zane/tfaction/terraform-plan@v1.0.1-1
       if: env.TFACTION_JOB_TYPE == 'terraform'
       with:
         github_token: ${{inputs.github_token}}
 
-    - uses: dwango-zane/tfaction/tfmigrate-plan@main
+    - uses: dwango-zane/tfaction/tfmigrate-plan@v1.0.1-1
       if: env.TFACTION_JOB_TYPE == 'tfmigrate'
       with:
         github_token: ${{inputs.github_token}}
