@@ -16,7 +16,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: dwango-zane/tfaction/terraform-apply@main
+    - uses: dwango-zane/tfaction/terraform-apply@v1.5.1-1
       if: env.TFACTION_JOB_TYPE == 'terraform'
       with:
         # pull-requests:write - Create pull request comments and labels
@@ -24,7 +24,7 @@ runs:
         # contents:write - Update pull request branches
         github_token: ${{inputs.github_token}}
 
-    - uses: dwango-zane/tfaction/tfmigrate-apply@main
+    - uses: dwango-zane/tfaction/tfmigrate-apply@v1.5.1-1
       if: env.TFACTION_JOB_TYPE == 'tfmigrate'
       with:
         # pull-requests:write - Create pull request comments
