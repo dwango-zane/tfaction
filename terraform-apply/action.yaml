@@ -5,7 +5,6 @@ inputs:
     description: |
       GitHub Access Token
       pull-requests:write - Create pull request comments and labels
-      issues:write - Create labels
       actions:read - Download artifacts
       contents:write - Update pull request branches
     required: false
@@ -44,3 +43,4 @@ runs:
         TFACTION_DRIFT_ISSUE_REPO_NAME: ${{steps.global-config.outputs.drift_issue_repo_name}}
         DISABLE_UPDATE_RELATED_PULL_REQUESTS: ${{ steps.global-config.outputs.disable_update_related_pull_requests }}
         PLAN_WORKFLOW_NAME: ${{ steps.global-config.outputs.plan_workflow_name }}
+        TF_COMMAND: ${{ steps.target-config.outputs.terraform_command }}

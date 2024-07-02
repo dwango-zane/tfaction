@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+if [ -z "${TFMIGRATE_EXEC_PATH:-}" ] && [ "$TF_COMMAND" != terraform ] ; then
+	TFMIGRATE_EXEC_PATH=$TF_COMMAND
+fi
+
 if [ ! -f .tfmigrate.hcl ]; then
 	if [ -n "${S3_BUCKET_NAME_TFMIGRATE_HISTORY:-}" ]; then
 		sed "s|%%TARGET%%|$TFACTION_TARGET|g" \
@@ -32,12 +36,4 @@ github-comment exec \
 	-var "tfaction_target:$TFACTION_TARGET" \
 	-- tfmigrate plan --out tfplan.binary
 
-if [ -d "$ROOT_DIR/policy" ]; then
-	github-comment exec -- terraform show -json tfplan.binary >tfplan.json
-	conftest -v # Install conftest in advance to exclude aqua lazy install log from github-comment's comment
-	github-comment exec \
-		--config "${GITHUB_ACTION_PATH}/github-comment.yaml" \
-		-var "tfaction_target:$TFACTION_TARGET" \
-		-k conftest -- \
-			conftest test --no-color -p "$ROOT_DIR/policy" tfplan.json
-fi
+bash "$GITHUB_ACTION_PATH/conftest.sh"

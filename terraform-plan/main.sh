@@ -13,7 +13,7 @@ if [ "${DESTROY:-}" = true ]; then
 fi
 set +e
 tfcmt -var "target:$TFACTION_TARGET" -var "destroy:${DESTROY:-}" plan -- \
-	terraform plan -no-color -detailed-exitcode -out tfplan.binary -input=false $opts
+	"$TF_COMMAND" plan -no-color -detailed-exitcode -out tfplan.binary -input=false $opts
 code=$?
 set -e
 
@@ -21,9 +21,7 @@ if [ "$code" -eq 1 ]; then
 	exit 1
 fi
 
-if [ -d "$ROOT_DIR/policy" ]; then
-	bash "$GITHUB_ACTION_PATH/conftest.sh"
-fi
+bash "$GITHUB_ACTION_PATH/conftest.sh"
 
 if [ "$code" = "0" ]; then
 	exit 0
