@@ -10,7 +10,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: dwango-zane/tfaction/get-global-config@main
+    - uses: dwango-zane/tfaction/get-global-config@267811b57b67084067b65839f50c9d8244b7785f # main
       id: global-config
     - run: |
         tempfile=$(mktemp)
